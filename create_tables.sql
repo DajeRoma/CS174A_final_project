@@ -6,7 +6,7 @@ use projects;
 
 -- Create Table Employees
 CREATE TABLE Employees(
-	id			integer,
+    id			integer,
     age			integer,
     salary		TEXT NOT NULL,
     PRIMARY KEY(id)
