@@ -75,7 +75,13 @@ long long myTest(
 }
 
 /*
- * compile: gcc -shared -o my_udf.so my_udf.c
+ * compile: gcc -I/usr/include/mysql -shared -o my_udf.so my_udf.c
+ *     some warning returns:
+ *          my_udf.c: In function ‘myTest’:
+ *          my_udf.c:74:2: warning: return makes integer from pointer without a cast [enabled by default]
+ *          return args->args + a;
+ *          ^
+ *
  *
  * Then, put the compiled .so file to : usr/local/mysql/lib/plugin
  *
