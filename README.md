@@ -7,13 +7,15 @@ This is the final project of the course and is a team project (maximum size of t
 
 Some useful linux commands to refer to:
 
-# copy my_udf.so (in the current directory) to /usr/lib/mysql/plugin/ where .so file should go
+-- copy my_udf.so (in the current directory) to /usr/lib/mysql/plugin/ where .so file should go
 sudo cp my_udf.so /usr/lib/mysql/plugin/
-# create a fold called 174A
+
+-- create a fold called 174A
 mkdir 174A
 
-# compile the .c file to .so
+-- compile the .c file to .so
 gcc -I/usr/include/mysql -shared -o my_udf.so my_udf.c
-# compile the .c file to .so (if the previous one gives warning and mention "-fPIC")
+
+-- compile the .c file to .so (if the previous one gives warning and mention "-fPIC")
 gcc -I/usr/include/mysql -shared -o my_udf.so my_udf.c -fPIC
 
