@@ -1,0 +1,7 @@
+Login:
+  http://cs271ucsb.signin.aws.amazon.com/
+
+UDF:
+  http://www.slideshare.net/rpbouman/writing-my-sql-ud-fs
+  http://dev.mysql.com/doc/refman/5.7/en/adding-udf.html
+  http://dev.mysql.com/doc/refman/5.0/en/udf-compiling.html
