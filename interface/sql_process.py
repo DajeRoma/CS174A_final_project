@@ -3,6 +3,7 @@ import csv
 import sys
 
 import mysql.connector
+import subprocess as sb
 
 config = {
         'user': 'batigoal',
@@ -97,7 +98,12 @@ class SQL_Process:
             else:
                 print("[Warning] There is no such employee with id {}".format(emp_id))
 
-
+    def encryption(self, input):
+        '''CALL C program to do encryption using subprocess '''
+        proc = sb.Popen(['./encrypt.out',input],stdout=sb.PIPE)
+        encrypted_value = proc.stdout.readline()
+        return encrypted_value
+        
     def decryption(self, code):
         return code
 
