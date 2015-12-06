@@ -39,9 +39,9 @@ def interface():
     a.select_avg_groupby("WHERE age<26 GROUP BY age HAVING SUM(salary) > 100000")
 ##    print welcome_words
 ##    print manu
-#     enc_test = a.encryption("0")
-
-    raw_input()
+#     enc_test = a.encryption("100")
+#     dec_test = a.decryption(enc_test)
+    
     while(command != "quit" and command != "q"):
         if(command == "m" or command == "manu"):
             print manu

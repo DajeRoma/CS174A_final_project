@@ -98,15 +98,17 @@ class SQL_Process:
             else:
                 print("[Warning] There is no such employee with id {}".format(emp_id))
 
-    def encryption(self, input):
+    def encryption(self, input_long):
         '''CALL C program to do encryption using subprocess '''
-        proc = sb.Popen(['./encrypt.out',input],stdout=sb.PIPE)
+        proc = sb.Popen(['./encrypt.out',input_long],stdout=sb.PIPE)
         encrypted_value = proc.stdout.readline()
         return encrypted_value
         
-    def decryption(self, code):
-        return code
-
+    def decryption(self, input_cipher):
+        """ Call ./decrypt.out and do decryption"""
+        proc = sb.Popen(['./decrypt.out',input_cipher],stdout=sb.PIPE)
+        decrypted_res = proc.stdout.readline()
+        return decrypted_res
 
     def select_sum(self):
         """Select the sum of salary of all employees"""
