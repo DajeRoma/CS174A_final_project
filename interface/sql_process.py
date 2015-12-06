@@ -40,6 +40,9 @@ class SQL_Process:
             print("[Warning] The employee {} has been in the database...\nno data inserted.".format(eid))
         else:
             """Insert a row of employee data into the database"""
+            
+            """ encrypt salary here """
+            salary = self.encryption(str(salary))
             value = {
                 "emp_id": eid,
                 "emp_age": age,
@@ -113,7 +116,7 @@ class SQL_Process:
     def select_sum(self):
         """Select the sum of salary of all employees"""
         query = """
-            SELECT SUM(salary) AS sum
+            SELECT SUM_HE(salary) AS sum
             FROM Employees
             """
         print("Executing: {} ... ".format(query), end="")
@@ -126,15 +129,16 @@ class SQL_Process:
             print("\nSuccess\n")
             result = self.__cursor.fetchone()
             if(result is not None):   # check if there is any row return
-                print("The sum of salary of all employee is {}.".format(self.decryption(result[0])))
+                ''' decryption of the results'''
+                decrypted_res = self.decryption(str(result[0]))
+                print("The sum of salary of all employee is {}.".format(decrypted_res))
             else:
                 print("[Warning]  There is no such employee under this criteria")
-
 
     def select_sum_where(self, condition):
         """Select the sum of salary of the employees under the Where (no groupby) condition"""
         query = """
-            SELECT SUM(salary) AS sum
+            SELECT SUM_HE(salary) AS sum
             FROM Employees
             """ + condition + ";"
         print("Executing: {} ... ".format(query), end="")
@@ -147,7 +151,9 @@ class SQL_Process:
             print("\nSuccess\n")
             result = self.__cursor.fetchone()
             if(result is not None):   # check if there is any row return
-                print("The sum of salary of such employee is {}.".format(result[0]))
+                ''' decryption of the results'''
+                decrypted_res = self.decryption(str(result[0]))
+                print("The sum of salary of such employee is {}.".format(decrypted_res))
             else:
                 print("[Warning] There is no such employee under this criteria")
 
