@@ -228,9 +228,9 @@ class SQL_Process:
                 print("\nSuccess\n")
                 result = self.__cursor.fetchone()
                 if(result is not None):   # check if there is any row return
-                    sum = self.decryption(str(result[0])) # decrypt the sum of salary
-                    print("The sum of salary of all the employee is {}.".format(sum))
-                    print("The average salary of all employee is " + str(sum*1.0/count))
+                    sum_de = self.decryption(str(result[0])) # decrypt the sum of salary
+                    print("The sum of salary of all the employee is {}.".format(sum_de))
+                    print("The average salary of all employee is " + str(int(sum_de)*1.0/count))
                 else:
                     print("[Warning] No row is returned...")                
         else:
@@ -279,9 +279,9 @@ class SQL_Process:
                 print("\nSuccess\n")
                 result = self.__cursor.fetchone()
                 if(result is not None):   # check if there is any row return
-                    sum = self.decryption(str(result[0]))
-                    print("The sum of salary of such employee is {}.".format(sum))
-                    print("The average salary of such employee is " + str(sum*1.0/count))
+                    sum_de = self.decryption(str(result[0]))
+                    print("The sum of salary of such employee is {}.".format(sum_de))
+                    print("The average salary of such employee is " + str(int(sum_de)*1.0/count))
                 else:
                     print("[Warning] No row is returned...")                
         else:
@@ -310,13 +310,13 @@ class SQL_Process:
             if(result is not None):   # check if there is any row return
                 age = result[0]
                 count = result[1]
-                sum = self.decryption(str(result[2]))
-                print("There are {} such employees with age {} and total salary {}.".format(age, count, sum))
-                print("The average salaray of employees with age {} is {}".format(age, (sum*1.0/count)))
+                sum_de = self.decryption(str(result[2]))
+                print("There are {} such employees with age {} and total salary {}.".format(age, count, sum_de))
+                print("The average salaray of employees with age {} is {}".format(age, (int(sum_de)*1.0/count)))
                 for(ageI, countI, sumI) in self.__cursor:
                     sumI = self.decryption(str(sumI))
                     print("There are {} such employees with age {} and total salary {}.".format(ageI, countI, sumI))
-                    print("The average salaray of employees with age {} is {}".format(ageI, (sumI*1.0/countI)))
+                    print("The average salaray of employees with age {} is {}".format(ageI, (int(sumI)*1.0/countI)))
             else:
                 print("No row is returned...\nNULL    There is no such employee under this criteria")
         
