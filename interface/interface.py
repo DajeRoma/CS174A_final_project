@@ -40,9 +40,9 @@ def interface():
 #     a.insert_data(17, 35, 20000)
 #     a.insert_data(2, 42, 200000)
 #     a.insert_data(0, 33, 10000)
-    a.select_sum()
+    #a.select_sum()
 #     a.select_id("2")
-    a.select_sum_where("WHERE age<26")
+    #a.select_sum_where("WHERE age<26")
     #a.select_sum_groupby("GROUP BY age")
     #a.select_sum_groupby("GROUP BY age HAVING age<10")
     #a.select_avg()
@@ -50,11 +50,10 @@ def interface():
 #     a.select_avg_groupby("WHERE age<26 GROUP BY age HAVING SUM(salary) > 100000")
 ##    print welcome_words
 ##    print manu
-#     enc_test = a.encryption("100")
-#     dec_test = a.decryption("enc_test")
-#     print dec_test
+    enc_test = a.encryption("100")
+    dec_test = a.decryption(enc_test)
+    print dec_test
     
-    raw_input()
     while(command != "quit" and command != "q"):
         if(command == "m" or command == "manu"):
             print manu
@@ -62,13 +61,8 @@ def interface():
         print "You entered: " + command
         if(command == "a"):
             a.select_sum_groupby("GROUP BY age HAVING age<10")
+
+
     
-
-
-
-
-
-
-
 if __name__ == '__main__':
     interface();
