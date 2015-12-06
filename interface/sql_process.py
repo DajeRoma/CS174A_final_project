@@ -99,7 +99,7 @@ class SQL_Process:
 
 
     def decryption(self, code):
-        return "a"
+        return code
 
 
     def select_sum(self):
@@ -169,12 +169,13 @@ class SQL_Process:
 
     def select_avg(self):
         """Select the average of salary of all employees"""
+        count = 0
+        sum = 0        
+        ## Get the count first
         query1 = """
-            SELECT SUM(salary) as sum
+            SELECT COUNT(*) as count
             FROM Employees;
             """
-        sum = 0
-        count = 0
         print("Executing: {} ... ".format(query1), end="")
         try:
             self.__cursor.execute(query1)
@@ -185,17 +186,50 @@ class SQL_Process:
             print("\nSuccess\n")
             result = self.__cursor.fetchone()
             if(result is not None):   # check if there is any row return
-                sum = result[0]
-                print("The sum of salary of all employee is {}.".format(self.decryption(result[0])))
+                count = result[0]
+                if(count == 0):
+                    print("There is no employee in the database.")
+                else:
+                    print("There are {} employees.".format(count))
             else:
-                print("[Warning]  There is no such employee under this criteria")
-        query2 = """
+                print("[Warning] No row is returned.")
+        ## If there are some employees, then we get the sum
+        if(count > 0):
+            query2 = """
+                SELECT SUM(salary) as sum
+                FROM Employees;
+                """
+            print("Executing: {} ... ".format(query2), end="")
+            try:
+                self.__cursor.execute(query2)
+            except mysql.connector.Error as err:
+                print("ERROR\nMySQL Error: {}\n".format(err))
+                #sys.exit(1)
+            else:
+                print("\nSuccess\n")
+                result = self.__cursor.fetchone()
+                if(result is not None):   # check if there is any row return
+                    sum = result[0]
+                    print("The sum of salary of all the employee is {}.".format(self.decryption(sum)))
+                    print("The average salary of all employee is " + str(sum*1.0/count))
+                else:
+                    print("[Warning] No row is returned...")                
+        else:
+            print("NULL    There is no employee in the database.")
+
+
+    def select_avg_where(self, condition):
+        """Select the average of salary of the employees under the where condition"""
+        count = 0
+        sum = 0        
+        ## Get the count first
+        query1 = """
             SELECT COUNT(*) as count
-            FROM Employees;
-            """
-        print("Executing: {} ... ".format(query2), end="")
+            FROM Employees
+            """ + condition + ";"
+        print("Executing: {} ... ".format(query1), end="")
         try:
-            self.__cursor.execute(query2)
+            self.__cursor.execute(query1)
         except mysql.connector.Error as err:
             print("ERROR\nMySQL Error: {}\n".format(err))
             #sys.exit(1)
@@ -204,15 +238,69 @@ class SQL_Process:
             result = self.__cursor.fetchone()
             if(result is not None):   # check if there is any row return
                 count = result[0]
-                print("The sum of salary of all employee is {}.".format(self.decryption(result[0])))
+                if(count == 0):
+                    print("There is no such employee under this criteria in the database.")
+                else:
+                    print("There are {} such employees.".format(count))
             else:
-                print("[Warning]  There is no such employee under this criteria")
-        if(sum != 0 and count != 0):
-            print("The average of salary of all employee is " + str(sum*1.0/count))
+                print("[Warning] No row is returned.")
+        ## If there are some employees, then we get the sum
+        if(count > 0):
+            query2 = """
+                SELECT SUM(salary) as sum
+                FROM Employees
+                """ + condition + ";"
+            print("Executing: {} ... ".format(query2), end="")
+            try:
+                self.__cursor.execute(query2)
+            except mysql.connector.Error as err:
+                print("ERROR\nMySQL Error: {}\n".format(err))
+                #sys.exit(1)
+            else:
+                print("\nSuccess\n")
+                result = self.__cursor.fetchone()
+                if(result is not None):   # check if there is any row return
+                    sum = result[0]
+                    print("The sum of salary of such employee is {}.".format(self.decryption(sum)))
+                    print("The average salary of such employee is " + str(sum*1.0/count))
+                else:
+                    print("[Warning] No row is returned...")                
+        else:
+            print("NULL    There is no employee in the database.")
+        
 
+    def select_avg_groupby(self, condition):
+        """Select the average of salary of the employees under the where, groupby and having condition"""
+        count = 0
+        countList = []
+        sum = 0        
+        ## Get the count and sum
+        query = """
+            SELECT age, COUNT(*) as count, SUM(salary) as sum
+            FROM Employees
+            """ + condition + ";"
+        print("Executing: {} ... ".format(query), end="")
+        try:
+            self.__cursor.execute(query)
+        except mysql.connector.Error as err:
+            print("ERROR\nMySQL Error: {}\n".format(err))
+            #sys.exit(1)
+        else:
+            print("\nSuccess\n")
+            result = self.__cursor.fetchone()
+            if(result is not None):   # check if there is any row return
+                age = result[0]
+                count = result[1]
+                sum = result[2]
+                print("There are {} such employees with age {} and total salary {}.".format(age, count, sum))
+                print("The average salaray of employees with age {} is {}".format(age, (sum*1.0/count)))
+                for(ageI, countI, sumI) in self.__cursor:
+                    print("There are {} such employees with age {} and total salary {}.".format(ageI, countI, sumI))
+                    print("The average salaray of employees with age {} is {}".format(ageI, (sumI*1.0/countI)))
+            else:
+                print("No row is returned...\nNULL    There is no such employee under this criteria")
         
-        
-    
+  
     def roma(self):
         print("Forza Roma")
 
