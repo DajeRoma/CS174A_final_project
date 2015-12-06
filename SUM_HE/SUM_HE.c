@@ -32,15 +32,18 @@ typedef long long longlong;
 static pthread_mutex_t LOCK_hostname;
 #endif
 
+
+
 #include <math.h>
 #include <gmp.h>
 #include "paillier.h"
+#define BASE 32
 
 struct data_type{
 	// store the data type that will be used in SUM_HE
 	// include key, the original data and the results of product
 	paillier_pubkey_t *pubkey;
-	int base_num;
+//	int base_num;
 	char *res;
 };
 
@@ -60,12 +63,14 @@ my_bool SUM_HE_init(UDF_INIT *initid, UDF_ARGS *args, char *error){
 	}
 	printf("Allocating public key...");
 	struct data_type* data = (struct data_type*)malloc(sizeof(struct data_type));
+	paillier_ciphertext_t* paillier_create_enc_zero();
+
 	// Give it an initial value.
 	data->res = "1";
 	// This is the pre-generated public key, must not change
 	data->pubkey = paillier_pubkey_from_hex("308009099635125798901407778611699871613");
-	// Allocate a value to base number
-	data->base_num = atoi("308009099635125798901407778611699871613");
+//	// Allocate a value to base number
+//	data->base_num = atoi("308009099635125798901407778611699871613");
 
 	// Another allocations
 	initid->maybe_null = 1;
@@ -84,40 +89,53 @@ void SUM_HE_deinit(UDF_INIT* initid){
 	free((struct data_type*)initid->ptr);
 }
 
-char * encry_sum (paillier_pubkey_t* public_key, char * input1, char * input2, int output ){
+void SUM_HE_clear(UDF_INIT *initid, char *is_null, char *error)
+{
+   struct data_type* data = (struct data_type*)initid->ptr;
+   data->res = "1";
+}
+
+char * encry_sum (paillier_pubkey_t* public_key, char * input1, char * input2, int base ){
 	// This is my SUM_add function, calling function
 	// Using libpaillier library
 	// http://acsc.cs.utexas.edu/libpaillier/
 
 	paillier_ciphertext_t input_a;
 	mpz_init(input_a.c);
-	mpz_set_str(input_a.c, input1, output);
+	mpz_set_str(input_a.c, input1, base);
 
 	paillier_ciphertext_t input_b;
 	mpz_init(input_b.c);
-	mpz_set_str(input_b.c, input2, output);
+	mpz_set_str(input_b.c, input2, base);
 
 	paillier_ciphertext_t result;
 	mpz_init(result.c);
 	paillier_mul(public_key, &result, &input_a, &input_b);
-	return mpz_get_str(NULL, output, result.c);
+
 	// dump result to output
-	return mpz_get_str(NULL, output,result.c);
+	return mpz_get_str(NULL, base,result.c);
 }
 
 void SUM_HE_add(UDF_INIT *initid, UDF_ARGS *args, char *is_null, char *error){
 	// The function body of add, it will alter the 'data' object
-	 struct data_type* data = (struct product_type*)initid->ptr;
-	 char * output = encry_sum(data->res, args->args[0], data->res, data->pubkey);
+	 struct data_type* data = (struct data_type*)initid->ptr;
+	 char * output = encry_sum(data->pubkey, data->res, args->args[0], BASE );
 	 data->res = output;
 }
 
-char *SUM_HE(UDF_INIT *initid, UDF_ARGS *args, char *is_empty, char *error){
+char *SUM_HE(UDF_INIT *initid, UDF_ARGS *args, char *output, unsigned long *length
+		,char *empty_i, char *error){
 	// This function will return the result of add
 	struct data_type* data = (struct data_type*)initid->ptr;
-
+	if (data->res == "1") {
+	      *empty_i = 1;
+	      *length = 0;
+	      return NULL;
+	   }
+	*length = strlen(data->res);
 	return data->res;
 }
+
 
 
 
