@@ -1,5 +1,6 @@
-if __name__ == '__main__':
+from sql_process import SQL_Process
 
+def interface():
     welcome_words = """
   ################################################################################
   ##                                                                            ##
@@ -17,20 +18,41 @@ if __name__ == '__main__':
   Developers:     Runsheng Song && Yiting Ju
   Version:        0.1
   Last update:    Dec. 2, 2015
-
   
     """
     manu = """
-        quit(q):    Quit the program
-
+    INSERT {emp_id} {emp_age} {emp_salary}
+    manu(m):    Display the manu
+    quit(q):    Quit the program
     """
     
     command = ""
-
-    
+    a = SQL_Process()
+    #a.select_id("931883")
+    #a.insert_data(931126, 54, 22200)
+    #a.select_sum()
+    #a.select_sum_where("WHERE age<26")
+    #a.select_sum_groupby("GROUP BY age")
+    #a.select_sum_groupby("GROUP BY age HAVING age<10")
+    #a.select_avg()
+    #a.select_avg_where("WHERE age<10")
+    a.select_avg_groupby("WHERE age<26 GROUP BY age HAVING SUM(salary) > 100000")
+##    print welcome_words
+##    print manu
     while(command != "quit" and command != "q"):
-        print welcome_words
-        print manu
+        if(command == "m" or command == "manu"):
+            print manu
         command = raw_input("Please enter your command:\n")
         print "You entered: " + command
+        if(command == "a"):
+            a.select_sum_groupby("GROUP BY age HAVING age<10")
     
+
+
+
+
+
+
+
+if __name__ == '__main__':
+    interface();
