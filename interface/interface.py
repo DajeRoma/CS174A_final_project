@@ -17,8 +17,8 @@ def interface():
 
   Team:           BatiGoal
   Developers:     Runsheng Song && Yiting Ju
-  Version:        0.9 BETA
-  Last update:    Dec. 6, 2015
+  Version:        BETA 1.0
+  Last update:    Dec. 7, 2015
   
     """
     manu = """
@@ -80,12 +80,12 @@ Operations
     ## Program starts
     command = ""
 
-##    print welcome_words
+    print welcome_words
     print manu
     sp = SQL_Process() ## connect to SQL server
     
     while(command != "quit" and command != "q"):
-        
+        # Accept input
         command = raw_input("Please enter your command:\n")        
         print "You entered: " + command
         command = command.lower()
@@ -128,11 +128,12 @@ Operations
                 group_condition_index = command.find("group")
                 having_condition_index = command.find("having")
                 if(command[group_condition_index+9:group_condition_index+12] == "age"): # only group by "age"
-                    if(command.rfind("sum") != command.find("sum")):    # Check if there is "sum" in Having
-                        command = command[:command.rfind("sum")+3]+"_he"+command[command.rfind("sum")+3:]   # Revise command
+##                    # not necessary to check use in having clause
+##                    if(command.rfind("sum") != command.find("sum")):    # Check if there is "sum" in Having
+##                        command = command[:command.rfind("sum")+3]+"_he"+command[command.rfind("sum")+3:]   # Revise command
                     if(where_condition_index <= 0):     # no where clause
                         sp.select_sum_groupby(command[group_condition_index:])
-                    else:   # there is where clause
+                    else:       # there is where clause
                         sp.select_sum_groupby(command[where_condition_index:])
                 else:
                     print("Invalid input... only group by 'age'")
@@ -148,8 +149,9 @@ Operations
                 where_condition_index = command.find("where")
                 group_condition_index = command.find("group")
                 if(command[group_condition_index+9:group_condition_index+12] == "age"): # only group by "age"
-                    if(command.rfind("sum") != command.find("sum")):    # Check if there is "sum" in Having
-                        command = command[:command.rfind("sum")+3]+"_he"+command[command.rfind("sum")+3:]   # Revise command
+##                    # not necessary to check use in having clause
+##                    if(command.rfind("sum") != command.find("sum")):    # Check if there is "sum" in Having
+##                        command = command[:command.rfind("sum")+3]+"_he"+command[command.rfind("sum")+3:]   # Revise command
                     if(where_condition_index <= 0):     # no where clause
                         sp.select_avg_groupby(command[group_condition_index:])
                     else:   # there is where clause
@@ -164,9 +166,4 @@ Operations
     
 if __name__ == '__main__':
     interface();
-
-
-
-
-
 
