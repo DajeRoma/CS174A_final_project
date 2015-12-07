@@ -7,12 +7,13 @@ Files and Compile:
     sql_process.py    --Functions for connecting and querying SQL database running on AWS
     encrypt.out       --Paillier encryption function writtern in C called by sql_process through subprocess
     decrypt.out       --Paillier decryption function writtern in C called by sql_process through subprocess
+    run: python interface.py
   SUM_HE for SQL:
     SUM_HE.c          --UDF of paillier summation writtern in C
     SUM_HE.so         --Conpiled shared library for UDF of paillier summation
     paillier.c        --Paillier library written in C
     paillier.h        --Paillier library head file
-    run: gcc -I/usr/include/mysql -shared -o SUM_HE.so SUM_HE.c -lpaillier -lgmp
+    compile: gcc -I/usr/include/mysql -shared -o SUM_HE.so SUM_HE.c -lpaillier -lgmp
   encrypt program:
     encrypt.c
     encrypt.out
