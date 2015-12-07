@@ -1,7 +1,7 @@
 Team:           BatiGoal
 Developers:     Runsheng Song && Yiting Ju
 
-Files:
+Files and Compile:
   Client:
     interface.py      --Primary client program as a user interface
     sql_process.py    --Functions for connecting and querying SQL database running on AWS
@@ -12,8 +12,21 @@ Files:
     SUM_HE.so         --Conpiled shared library for UDF of paillier summation
     paillier.c        --Paillier library written in C
     paillier.h        --Paillier library head file
+    run: gcc -I/usr/include/mysql -shared -o SUM_HE.so SUM_HE.c -lpaillier -lgmp
+  encrypt program:
+    encrypt.c
+    encrypt.out
+    paillier.c
+    paillier.h
+    Complie: gcc encrypt.c paillier.c -o encrypt.out -lgmp -lpaillier
+  decrypt program:
+    decrypt.c
+    decrypt.out
+    paillier.c
+    paillier.h
+    Compile: gcc decrypt.c paillier.c -o decrypt.out -lgmp -lpaillier
   SQL:
     create_tables.sql   --SQL command for creating the require "Employees" table
   
-Instructions on how to compile and install your code on your AWS instance:
+
 
