@@ -113,7 +113,7 @@ Operations
             if(len(commandSplit) == 2 and commandSplit[1].isdigit()):
                 sp.select_id(commandSplit[1])
             ## SELECT *
-            elif(len(commandSplit) == 2 and commandSplit[2] == "*"):
+            elif(len(commandSplit) == 2 and commandSplit[1] == "*"):
                 sp.select_all()                
             ## SELECT SUM
             elif(len(commandSplit) >= 2 and "sum" in command and "where" not in command and "group" not in command and "having" not in command):
