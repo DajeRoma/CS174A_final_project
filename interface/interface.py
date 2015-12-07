@@ -126,7 +126,10 @@ Operations
             elif(len(commandSplit) >= 5 and "sum" in command and "group by" in command):
                 where_condition_index = command.find("where")
                 group_condition_index = command.find("group")
+                having_condition_index = command.find("having")
                 if(command[group_condition_index+9:group_condition_index+12] == "age"): # only group by "age"
+                    if(command.rfind("sum") != command.find("sum")):    # Check if there is "sum" in Having
+                        command = command[:command.rfind("sum")+3]+"_he"+command[command.rfind("sum")+3:]   # Revise command
                     if(where_condition_index <= 0):     # no where clause
                         sp.select_sum_groupby(command[group_condition_index:])
                     else:   # there is where clause
@@ -145,6 +148,8 @@ Operations
                 where_condition_index = command.find("where")
                 group_condition_index = command.find("group")
                 if(command[group_condition_index+9:group_condition_index+12] == "age"): # only group by "age"
+                    if(command.rfind("sum") != command.find("sum")):    # Check if there is "sum" in Having
+                        command = command[:command.rfind("sum")+3]+"_he"+command[command.rfind("sum")+3:]   # Revise command
                     if(where_condition_index <= 0):     # no where clause
                         sp.select_avg_groupby(command[group_condition_index:])
                     else:   # there is where clause
@@ -159,13 +164,6 @@ Operations
     
 if __name__ == '__main__':
     interface();
-
-
-
-
-
-
-
 
 
 
