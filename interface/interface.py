@@ -112,6 +112,9 @@ Operations
             ## SELECT emp_id
             if(len(commandSplit) == 2 and commandSplit[1].isdigit()):
                 sp.select_id(commandSplit[1])
+            ## SELECT *
+            elif(len(commandSplit) == 2 and commandSplit[2] == "*"):
+                sp.select_all()                
             ## SELECT SUM
             elif(len(commandSplit) >= 2 and "sum" in command and "where" not in command and "group" not in command and "having" not in command):
                 sp.select_sum()
@@ -123,7 +126,7 @@ Operations
             elif(len(commandSplit) >= 5 and "sum" in command and "group by" in command):
                 where_condition_index = command.find("where")
                 group_condition_index = command.find("group")
-                if(command[group_condition_index+9:command[group_condition_index+12] == "age"): # only group by "age"
+                if(command[group_condition_index+9:group_condition_index+12] == "age"): # only group by "age"
                     if(where_condition_index <= 0):     # no where clause
                         sp.select_sum_groupby(command[group_condition_index:])
                     else:   # there is where clause
@@ -141,19 +144,29 @@ Operations
             elif(len(commandSplit) >= 5 and "avg" in command and "group by" in command):
                 where_condition_index = command.find("where")
                 group_condition_index = command.find("group")
-                if(command[group_condition_index+9:command[group_condition_index+12] == "age"): # only group by "age"
+                if(command[group_condition_index+9:group_condition_index+12] == "age"): # only group by "age"
                     if(where_condition_index <= 0):     # no where clause
                         sp.select_avg_groupby(command[group_condition_index:])
                     else:   # there is where clause
                         sp.select_avg_groupby(command[where_condition_index:])
                 else:
                     print("Invalid input... only group by 'age'")
+            else:
+                print("Invalid input...")
         else:
             print("Invalid input...")
 
     
 if __name__ == '__main__':
     interface();
+
+
+
+
+
+
+
+
 
 
 
