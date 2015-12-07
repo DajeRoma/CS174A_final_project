@@ -8,7 +8,7 @@ Files and Compile:
     encrypt.out       --Paillier encryption function writtern in C called by sql_process through subprocess
     decrypt.out       --Paillier decryption function writtern in C called by sql_process through subprocess
     run: python interface.py
-  SUM_HE for SQL:
+  SUM_HE for SQL (only these files have to be on the AWS server):
     SUM_HE.c          --UDF of paillier summation writtern in C
     SUM_HE.so         --Conpiled shared library for UDF of paillier summation
     paillier.c        --Paillier library written in C
