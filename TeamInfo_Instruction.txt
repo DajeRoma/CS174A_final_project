@@ -20,12 +20,14 @@ Files and Compile:
     paillier.c
     paillier.h
     Complie: gcc encrypt.c paillier.c -o encrypt.out -lgmp -lpaillier
+    run: ./encrypt.out Salary_INTEGER
   decrypt program:
     decrypt.c
     decrypt.out
     paillier.c
     paillier.h
     Compile: gcc decrypt.c paillier.c -o decrypt.out -lgmp -lpaillier
+    run: ./decrypt.out "Encrypted_STRING" 
   SQL:
     create_tables.sql   --SQL command for creating the require "Employees" table
   
