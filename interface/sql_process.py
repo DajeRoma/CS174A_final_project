@@ -14,7 +14,7 @@ config = {
     }
 
 class SQL_Process:
-    def __init__(self):
+    def __init__(self):     # initialize the SQL process with connecting to the SQL server
         try:
           self.__cnx = mysql.connector.connect(**config)
           self.__cnx.get_warnings = True
@@ -41,7 +41,6 @@ class SQL_Process:
             print("[Warning] The employee {} has been in the database...\nno data inserted".format(eid))
         else:
             """Insert a row of employee data into the database"""
-            
             # encrypt salary
             salary = self.encryption(str(salary))
             value = {
@@ -120,8 +119,8 @@ class SQL_Process:
             result = self.__cursor.fetchone()
             if(result is not None):   # check if there is any row return
                 print("Employee({})'s age is {} and salary is {}".format(result[0], result[1], self.decryption(str(result[2]))))
-                for(id, age, sum) in self.__cursor:
-                    print("Employee({})'s age is {} and salary is {}".format(id, age, self.decryption(str(sum))))
+                for(idI, ageI, sumI) in self.__cursor:
+                    print("Employee({})'s age is {} and salary is {}".format(idI, ageI, self.decryption(str(sumI))))
             else:
                 print("[Warning] NULL    There is no employee in the database")
 
@@ -161,6 +160,7 @@ class SQL_Process:
                 print("The sum of salary of all employee is {}".format(decrypted_res))
             else:
                 print("[Warning] NULL   There is no such employee under this criteria")
+
 
     def select_sum_where(self, condition):
         """Select the sum of salary of the employees under the Where (no groupby) condition"""
@@ -204,8 +204,8 @@ class SQL_Process:
                 print("The sum of salary of such employee with age {} is {}".format(firstRow[0], self.decryption(str(firstRow[1]))))
             else:
                 print("[Warning] NULL   There is no such employee under this criteria")
-            for(age, sum) in self.__cursor:
-                print("The sum of salary of such employee with age {} is {}".format(age, self.decryption(str(sum))))
+            for(ageI, sumI) in self.__cursor:
+                print("The sum of salary of such employee with age {} is {}".format(ageI, self.decryption(str(sumI))))
 
 
     def select_avg(self):
@@ -342,6 +342,7 @@ class SQL_Process:
     def close(self):
         self._cursor.close()
         self.__cnx.close()
+
 
 
 
