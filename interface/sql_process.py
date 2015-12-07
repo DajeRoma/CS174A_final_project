@@ -321,8 +321,9 @@ class SQL_Process:
                 print("No row is returned...\nNULL    There is no such employee under this criteria")
         
   
-    def roma(self):
-        print("Forza Roma")
+    def close(self):
+        self._cursor.close()
+        self.__cnx.close()
 
 
 
