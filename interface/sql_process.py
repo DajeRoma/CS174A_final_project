@@ -317,7 +317,7 @@ class SQL_Process:
         sum = 0        
         ## Get the count and sum
         query = """
-            SELECT age, COUNT(*) as count, SUM(salary) as sum
+            SELECT age, COUNT(*) as count, SUM_HE(salary) as sum
             FROM Employees
             """ + condition + ";"
         print("Executing: {} ... ".format(query), end="")
