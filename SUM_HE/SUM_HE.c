@@ -68,9 +68,9 @@ my_bool SUM_HE_init(UDF_INIT *initid, UDF_ARGS *args, char *error){
 	// Give it an initial value.
 	data->res = "1";
 	// This is the pre-generated public key, must not change
-	data->pubkey = paillier_pubkey_from_hex("308009099635125798901407778611699871613");
+	data->pubkey = paillier_pubkey_from_hex("8b7401f20812b8a58678f4c9f73f3b7f");
 //	// Allocate a value to base number
-//	data->base_num = atoi("308009099635125798901407778611699871613");
+//	data->base_num = atoi("8b7401f20812b8a58678f4c9f73f3b7f");
 
 	// Another allocations
 	initid->maybe_null = 1;
