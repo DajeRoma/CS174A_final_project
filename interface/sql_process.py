@@ -101,7 +101,7 @@ class SQL_Process:
             if(result is not None):   # check if there is any row return
                 print("Employee({})'s age is {} and salary is {}".format(result[0], result[1], self.decryption(str(result[2]))))
             else:
-                print("[Warning] There is no such employee with id {}".format(emp_id))
+                print("[Warning] NULL    There is no such employee with id {}".format(emp_id))
 
 
     def select_all(self):
@@ -123,7 +123,7 @@ class SQL_Process:
                 for(id, age, sum) in self.__cursor:
                     print("Employee({})'s age is {} and salary is {}".format(id, age, self.decryption(str(sum))))
             else:
-                print("[Warning] There is no such employee with id {}".format(emp_id))
+                print("[Warning] NULL    There is no employee in the database")
 
 
     def encryption(self, input_long):
@@ -160,7 +160,7 @@ class SQL_Process:
                 decrypted_res = self.decryption(str(result[0]))
                 print("The sum of salary of all employee is {}".format(decrypted_res))
             else:
-                print("[Warning]  There is no such employee under this criteria")
+                print("[Warning] NULL   There is no such employee under this criteria")
 
     def select_sum_where(self, condition):
         """Select the sum of salary of the employees under the Where (no groupby) condition"""
@@ -177,12 +177,12 @@ class SQL_Process:
         else:
             print("\nSuccess\n")
             result = self.__cursor.fetchone()
-            if(result is not None):   # check if there is any row return
+            if(result[0] is not None):   # check if there is any row return
                 # decryption of the results
                 decrypted_res = self.decryption(str(result[0]))
                 print("The sum of salary of such employee is {}".format(decrypted_res))
             else:
-                print("[Warning] There is no such employee under this criteria")
+                print("[Warning] NULL    There is no such employee under this criteria")
 
 
     def select_sum_groupby(self, condition):
@@ -203,7 +203,7 @@ class SQL_Process:
             if(firstRow is not None):   # check if there is any row return
                 print("The sum of salary of such employee with age {} is {}".format(firstRow[0], self.decryption(str(firstRow[1]))))
             else:
-                print("[Warning] There is no such employee under this criteria")
+                print("[Warning] NULL   There is no such employee under this criteria")
             for(age, sum) in self.__cursor:
                 print("The sum of salary of such employee with age {} is {}".format(age, self.decryption(str(sum))))
 
@@ -229,7 +229,7 @@ class SQL_Process:
             if(result is not None):   # check if there is any row return
                 count = result[0]
                 if(count == 0):
-                    print("There is no employee in the database")
+                    print("NULL    There is no employee in the database")
                 else:
                     print("There are {} employees.".format(count))
             else:
@@ -254,9 +254,7 @@ class SQL_Process:
                     print("The sum of salary of all the employee is {}".format(sum_de))
                     print("The average salary of all employee is " + str(int(sum_de)*1.0/count))
                 else:
-                    print("[Warning] No row is returned...")                
-        else:
-            print("NULL    There is no employee in the database")
+                    print("[Warning] No row is returned...")
 
 
     def select_avg_where(self, condition):
@@ -280,7 +278,7 @@ class SQL_Process:
             if(result is not None):   # check if there is any row return
                 count = result[0]
                 if(count == 0):
-                    print("There is no such employee under this criteria in the database")
+                    print("NULL    There is no such employee under this criteria in the database")
                 else:
                     print("There are {} such employees".format(count))
             else:
@@ -305,9 +303,7 @@ class SQL_Process:
                     print("The sum of salary of such employee is {}".format(sum_de))
                     print("The average salary of such employee is " + str(int(sum_de)*1.0/count))
                 else:
-                    print("[Warning] No row is returned...")                
-        else:
-            print("NULL    There is no employee in the database")
+                    print("[Warning] No row is returned...")
         
 
     def select_avg_groupby(self, condition):
